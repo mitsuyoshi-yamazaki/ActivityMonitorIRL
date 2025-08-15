@@ -4,6 +4,7 @@ struct DailyActivityView: View {
     @StateObject private var viewModel = DailyActivityViewModel()
     @State private var selectedHour: Int?
     @State private var showingActionSheet = false
+    @Environment(\.scenePhase) var scenePhase
     
     var body: some View {
         NavigationView {
@@ -12,19 +13,30 @@ struct DailyActivityView: View {
                     ProgressView()
                         .padding()
                 } else {
-                    List {
-                        ForEach(0..<24, id: \.self) { hour in
-                            HourRow(
-                                hour: hour,
-                                displayText: viewModel.getDisplayText(for: hour)
-                            ) {
-                                selectedHour = hour
-                                showingActionSheet = true
+                    ScrollViewReader { proxy in
+                        List {
+                            ForEach(0..<24, id: \.self) { hour in
+                                HourRow(
+                                    hour: hour,
+                                    displayText: viewModel.getDisplayText(for: hour)
+                                ) {
+                                    selectedHour = hour
+                                    showingActionSheet = true
+                                }
+                                .listRowSeparator(.visible)
+                                .id(hour)
                             }
-                            .listRowSeparator(.visible)
+                        }
+                        .listStyle(.plain)
+                        .onAppear {
+                            scrollToCurrentHourIfNeeded(proxy: proxy)
+                        }
+                        .onChange(of: scenePhase) { newPhase in
+                            if newPhase == .active {
+                                scrollToCurrentHourIfNeeded(proxy: proxy)
+                            }
                         }
                     }
-                    .listStyle(.plain)
                 }
             }
             .navigationTitle(viewModel.dateFormatter.string(from: viewModel.selectedDate))
@@ -51,6 +63,17 @@ struct DailyActivityView: View {
             message: Text("0〜6ポイントから選択してください"),
             buttons: buttons
         )
+    }
+    
+    private func scrollToCurrentHourIfNeeded(proxy: ScrollViewProxy) {
+        let currentHour = Calendar.current.component(.hour, from: Date())
+        
+        // 現在時刻のActivityRecordが存在しない場合のみスクロール
+        if viewModel.getDisplayText(for: currentHour) == "-" && !viewModel.isLoading {
+            withAnimation(.easeInOut(duration: 0.5)) {
+                proxy.scrollTo(currentHour, anchor: .center)
+            }
+        }
     }
 }
 
