@@ -68,7 +68,42 @@
 ```
 
 ### ディレクトリ構造
-実際のディレクトリ構造を参照
+```
+ActivityMonitorIRL/
+├── Models/
+│   └── ActivityRecord.swift           # 活動記録モデル
+├── ViewModels/
+│   └── DailyActivityViewModel.swift   # 日別画面の状態管理
+├── Views/
+│   ├── DailyActivityView.swift        # 日別記録画面
+│   └── Components/
+│       └── HourRow.swift              # 時刻行コンポーネント
+├── Database/
+│   └── DatabaseManager.swift          # SQLite接続管理
+├── Repositories/
+│   └── ActivityRepository.swift       # データアクセス層
+└── Extensions/
+    └── Date+SQLite.swift              # Date型SQLite対応
+```
+
+## 実装済み機能
+
+### データ構造
+- **ActivityRecord**: 日付・時間(0-23)・活動量(0-6)のモデル、(date,hour)複合主キー
+- **DatabaseManager**: SQLite接続管理、Documents/ActivityMonitor.sqliteに保存
+- **ActivityRepository**: CRUD操作とバリデーション、ActivityRecord専用データアクセス
+- **Date+SQLite**: Date型のValue実装、ISO8601形式でSQLite保存
+
+### 画面構造
+- **DailyActivityView**: 日別活動記録メイン画面、24時間テーブル表示
+- **DailyActivityViewModel**: ObservableObject状態管理、Repository連携とリアルタイム更新
+- **HourRow**: 時刻行コンポーネント、"時刻 | ポイント数"表示とタップ操作
+- **ActionSheet**: 0-6ポイントワンタップ入力UI
+
+### データフロー
+1. 起動時：ViewModel→Repository→SQLite、当日データ自動読み込み
+2. 入力時：タップ→ActionSheet→ViewModel→Repository→SQLite→UI更新
+3. 表示時：存在時ポイント数、未記録時"-"表示
 
 ## 開発環境セットアップ
 
