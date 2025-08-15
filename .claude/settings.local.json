@@ -4,7 +4,8 @@
       "Bash(xcodebuild:*)",
       "Bash(mint:*)",
       "WebSearch",
-      "WebFetch(domain:realm.github.io)"
+      "WebFetch(domain:realm.github.io)",
+      "WebFetch(domain:github.com)"
     ],
     "defaultMode": "acceptEdits"
   }

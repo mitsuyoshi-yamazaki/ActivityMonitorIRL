@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C15806E2E4ECF010070B66F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2C15806D2E4ECF010070B66F /* .gitignore */; };
 		2C1580702E4ECFD50070B66F /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C15806F2E4ECFD50070B66F /* CLAUDE.md */; };
+		2C1580C12E4F055E0070B66F /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 2C1580C02E4F055E0070B66F /* SQLite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C1580C12E4F055E0070B66F /* SQLite in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +91,13 @@
 			path = docs;
 			sourceTree = "<group>";
 		};
+		2C1580BF2E4F055E0070B66F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2C3177992E4ECCCE00A282BB = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +110,7 @@
 				2C3177A42E4ECCCE00A282BB /* ActivityMonitorIRL */,
 				2C3177B52E4ECCD000A282BB /* ActivityMonitorIRLTests */,
 				2C3177BF2E4ECCD000A282BB /* ActivityMonitorIRLUITests */,
+				2C1580BF2E4F055E0070B66F /* Frameworks */,
 				2C3177A32E4ECCCE00A282BB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -136,6 +146,7 @@
 			);
 			name = ActivityMonitorIRL;
 			packageProductDependencies = (
+				2C1580C02E4F055E0070B66F /* SQLite */,
 			);
 			productName = ActivityMonitorIRL;
 			productReference = 2C3177A22E4ECCCE00A282BB /* ActivityMonitorIRL.app */;
@@ -621,6 +632,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2C1580C02E4F055E0070B66F /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C1580B32E4F027B0070B66F /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2C31779A2E4ECCCE00A282BB /* Project object */;
 }
