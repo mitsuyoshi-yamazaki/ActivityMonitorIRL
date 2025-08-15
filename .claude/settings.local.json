@@ -1,5 +1,11 @@
 {
   "permissions": {
+    "allow": [
+      "Bash(xcodebuild:*)",
+      "Bash(mint:*)",
+      "WebSearch",
+      "WebFetch(domain:realm.github.io)"
+    ],
     "defaultMode": "acceptEdits"
   }
 }

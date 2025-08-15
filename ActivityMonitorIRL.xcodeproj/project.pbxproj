@@ -31,6 +31,9 @@
 /* Begin PBXFileReference section */
 		2C15806D2E4ECF010070B66F /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		2C15806F2E4ECFD50070B66F /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
+		2C1580732E4EF9C00070B66F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		2C1580742E4EF9C00070B66F /* Mintfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Mintfile; sourceTree = "<group>"; };
+		2C1580752E4EF9C00070B66F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2C3177A22E4ECCCE00A282BB /* ActivityMonitorIRL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityMonitorIRL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C3177B22E4ECCD000A282BB /* ActivityMonitorIRLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ActivityMonitorIRLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C3177BC2E4ECCD000A282BB /* ActivityMonitorIRLUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ActivityMonitorIRLUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,6 +94,9 @@
 			children = (
 				2C15806D2E4ECF010070B66F /* .gitignore */,
 				2C15806F2E4ECFD50070B66F /* CLAUDE.md */,
+				2C1580732E4EF9C00070B66F /* .swiftlint.yml */,
+				2C1580742E4EF9C00070B66F /* Mintfile */,
+				2C1580752E4EF9C00070B66F /* README.md */,
 				2C1580712E4EEE350070B66F /* docs */,
 				2C3177A42E4ECCCE00A282BB /* ActivityMonitorIRL */,
 				2C3177B52E4ECCD000A282BB /* ActivityMonitorIRLTests */,

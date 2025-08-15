@@ -1,0 +1,106 @@
+# 静的型安全性を最優先としたSwiftLint設定
+# Type Safety First SwiftLint Configuration
+
+disabled_rules:
+  - trailing_whitespace
+
+# 静的型安全性に関する厳格なルール（Strict Type Safety Rules）
+opt_in_rules:
+  # 必須の型安全性ルール（Essential Type Safety Rules）
+  - force_unwrapping                    # Force unwrapping禁止
+  - force_try                          # Force try禁止  
+  - force_cast                         # Force cast禁止
+  - implicitly_unwrapped_optional       # 暗黙的unwrapped optional禁止
+  
+  # Optional関連の型安全性ルール（Optional Safety Rules）
+  - discouraged_optional_boolean        # Optional Booleanの非推奨
+  - discouraged_optional_collection     # Optional Collectionの非推奨
+  - redundant_nil_coalescing           # 冗長なnil coalescingの検出
+  - shorthand_optional_binding         # 簡潔なoptional binding推奨
+  - optional_enum_case_matching        # Optional enum case matching最適化
+  
+  # エラーハンドリング関連（Error Handling Safety）
+  - untyped_error_in_catch             # 型付きエラーハンドリング推奨
+  
+  # その他有用なルール（Other Useful Rules）
+  - empty_count                        # .isEmpty推奨
+  - fallthrough                        # fallthrough文の明示的記述
+  - identical_operands                 # 同一オペランドの検出
+  - unavailable_function               # 非推奨関数の検出
+  - overridden_super_call             # super呼び出しの確認
+  
+  # ========================================
+  # 決めが必要なルール（Rules Requiring Decision）
+  # ========================================
+  
+  # TODO: 以下のルールについて方針を決定してください
+  
+  # strict_fileprivate
+  # 決定事項: fileprivateの使用を制限するか？
+  # 選択肢: 有効にする（strict） / 無効にする（permissive）
+  # 推奨: チーム規模が小さい場合は有効、大規模な場合は検討
+  
+  # explicit_self
+  # 決定事項: selfの明示的記述を強制するか？
+  # 選択肢: 有効にする（冗長だが明確） / 無効にする（簡潔）
+  # 推奨: 個人開発なら無効、チーム開発なら有効を検討
+  
+  # explicit_type_interface
+  # 決定事項: パブリックAPIで明示的な型注釈を強制するか？
+  # 選択肢: 有効にする（明確なAPI） / 無効にする（型推論活用）
+  # 推奨: ライブラリ開発なら有効、アプリ開発なら無効を検討
+  
+  # implicit_return
+  # 決定事項: 単一式のreturn文省略を許可するか？
+  # 選択肢: 有効にする（簡潔） / 無効にする（明示的）
+  # 推奨: Swift 5.1+の機能活用なら有効
+  
+  # trailing_closure
+  # 決定事項: trailing closureの使用を強制するか？
+  # 選択肢: 有効にする（Swift慣用的） / 無効にする（明示的）
+  # 推奨: Swift慣用表現を重視するなら有効
+
+included:
+  - ActivityMonitorIRL
+
+excluded:
+  - Carthage
+  - Pods
+  - .build
+
+line_length:
+  warning: 120
+  error: 140
+
+type_body_length:
+  warning: 300
+  error: 500
+
+file_length:
+  warning: 500
+  error: 1000
+
+function_parameter_count:
+  warning: 6
+  error: 8
+
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+  max_length:
+    warning: 40
+    error: 50
+
+# 型安全性ルールの重要度設定（Type Safety Rule Severity）
+force_unwrapping: error              # Force unwrappingは絶対に許可しない
+force_try: error                     # Force tryは絶対に許可しない
+force_cast: error                    # Force castは絶対に許可しない
+implicitly_unwrapped_optional: warning  # 暗黙的unwrapped optionalは警告レベル
+
+# Optional関連ルールの重要度
+discouraged_optional_boolean: warning
+discouraged_optional_collection: warning
+redundant_nil_coalescing: warning
+
+reporter: "xcode"
