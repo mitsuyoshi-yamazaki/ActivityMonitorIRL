@@ -33,7 +33,8 @@ struct DailyActivityView: View {
                             ForEach(0..<24, id: \.self) { hour in
                                 HourRow(
                                     hour: hour,
-                                    displayText: viewModel.getDisplayText(for: hour)
+                                    displayText: viewModel.getDisplayText(for: hour),
+                                    activity: viewModel.getActivity(for: hour)
                                 ) {
                                     selectedHour = hour
                                     showingActionSheet = true

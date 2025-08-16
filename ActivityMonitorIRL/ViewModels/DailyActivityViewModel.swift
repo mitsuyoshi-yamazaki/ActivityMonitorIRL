@@ -46,7 +46,15 @@ class DailyActivityViewModel: ObservableObject {
             return "-"
         }
     }
-    
+
+    func getActivity(for hour: Int) -> String? {
+        if let record = hourlyRecords[hour] {
+            return record.activity
+        } else {
+            return nil
+        }
+    }
+
     func updatePoints(for hour: Int, points: Int) {
         guard hour >= 0 && hour < 24 && points >= 0 && points <= 6 else { return }
         
