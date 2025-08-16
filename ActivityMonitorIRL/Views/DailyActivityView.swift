@@ -59,6 +59,23 @@ struct DailyActivityView: View {
             }
             .navigationTitle(viewModel.getTitle())
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        viewModel.changeToPreviousDate()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        viewModel.changeToNextDate()
+                    } label: {
+                        Image(systemName: "chevron.right")
+                    }
+                }
+            }
             .actionSheet(isPresented: $showingActionSheet) {
                 createActionSheet()
             }

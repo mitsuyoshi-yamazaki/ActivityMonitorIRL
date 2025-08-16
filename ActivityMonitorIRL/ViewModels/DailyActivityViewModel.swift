@@ -2,7 +2,11 @@ import SwiftUI
 import Foundation
 
 class DailyActivityViewModel: ObservableObject {
-    @Published var selectedDate = Date()
+    @Published private var _selectedDate = Calendar.current.startOfDay(for: Date())
+    var selectedDate: Date {
+        get { _selectedDate }
+        set { _selectedDate = Calendar.current.startOfDay(for: newValue) }
+    }
     @Published var hourlyRecords: [Int: ActivityRecord] = [:]
     @Published var isLoading = false
     @Published var isShowingTextInput = false
@@ -10,8 +14,7 @@ class DailyActivityViewModel: ObservableObject {
     @Published var activityText: String = ""
     
     private let repository = ActivityRepository()
-    private let calendar = Calendar.current
-    
+
     var totalPoints: Int {
         hourlyRecords.values.reduce(0) { $0 + $1.activityPoints }
     }
@@ -63,9 +66,8 @@ class DailyActivityViewModel: ObservableObject {
     func updatePoints(for hour: Int, points: Int) {
         guard hour >= 0 && hour < 24 && points >= 0 && points <= 6 else { return }
         
-        let targetDate = calendar.startOfDay(for: selectedDate)
-        let record = ActivityRecord(date: targetDate, hour: hour, activityPoints: points, activity: nil)
-        
+        let record = ActivityRecord(date: selectedDate, hour: hour, activityPoints: points, activity: nil)
+
         do {
             try repository.save(record)
             hourlyRecords[hour] = record
@@ -77,10 +79,9 @@ class DailyActivityViewModel: ObservableObject {
     func updatePointsForMultipleHours(hours: [Int], points: Int) {
         guard points >= 0 && points <= 6 else { return }
         
-        let targetDate = calendar.startOfDay(for: selectedDate)
         let records = hours.compactMap { hour -> ActivityRecord? in
             guard hour >= 0 && hour < 24 else { return nil }
-            return ActivityRecord(date: targetDate, hour: hour, activityPoints: points, activity: nil)
+            return ActivityRecord(date: selectedDate, hour: hour, activityPoints: points, activity: nil)
         }
         
         do {
@@ -96,9 +97,23 @@ class DailyActivityViewModel: ObservableObject {
     
     func changeDate(to date: Date) {
         selectedDate = date
-        loadActivityRecords(for: date)
+        loadActivityRecords(for: selectedDate)
     }
-    
+
+    func changeToPreviousDate() {
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) else {
+            return
+        }
+        changeDate(to: yesterday)
+    }
+
+    func changeToNextDate() {
+        guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) else {
+            return
+        }
+        changeDate(to: tomorrow)
+    }
+
     func showTextInput(for hour: Int) {
         selectedHour = hour
         if let record = hourlyRecords[hour] {
@@ -119,9 +134,8 @@ class DailyActivityViewModel: ObservableObject {
         guard hour >= 0 && hour < 24 else { return }
         guard let existingRecord = hourlyRecords[hour] else { return }
         
-        let targetDate = calendar.startOfDay(for: selectedDate)
         let updatedRecord = ActivityRecord(
-            date: targetDate,
+            date: selectedDate,
             hour: hour,
             activityPoints: existingRecord.activityPoints,
             activity: activity?.isEmpty == true ? nil : activity
