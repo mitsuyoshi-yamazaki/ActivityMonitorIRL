@@ -5,6 +5,9 @@ class DailyActivityViewModel: ObservableObject {
     @Published var selectedDate = Date()
     @Published var hourlyRecords: [Int: ActivityRecord] = [:]
     @Published var isLoading = false
+    @Published var isShowingTextInput = false
+    @Published var selectedHour: Int = 0
+    @Published var activityText: String = ""
     
     private let repository = ActivityRepository()
     private let calendar = Calendar.current
@@ -81,5 +84,42 @@ class DailyActivityViewModel: ObservableObject {
     func changeDate(to date: Date) {
         selectedDate = date
         loadActivityRecords(for: date)
+    }
+    
+    func showTextInput(for hour: Int) {
+        selectedHour = hour
+        if let record = hourlyRecords[hour] {
+            activityText = record.activity ?? ""
+        } else {
+            activityText = ""
+        }
+        isShowingTextInput = true
+    }
+    
+    func hideTextInput() {
+        isShowingTextInput = false
+        activityText = ""
+        selectedHour = 0
+    }
+    
+    func updateActivity(for hour: Int, activity: String?) {
+        guard hour >= 0 && hour < 24 else { return }
+        guard let existingRecord = hourlyRecords[hour] else { return }
+        
+        let targetDate = calendar.startOfDay(for: selectedDate)
+        let updatedRecord = ActivityRecord(
+            date: targetDate,
+            hour: hour,
+            activityPoints: existingRecord.activityPoints,
+            activity: activity?.isEmpty == true ? nil : activity
+        )
+        
+        do {
+            try repository.save(updatedRecord)
+            hourlyRecords[hour] = updatedRecord
+            hideTextInput()
+        } catch {
+            print("Failed to update activity: \(error)")
+        }
     }
 }

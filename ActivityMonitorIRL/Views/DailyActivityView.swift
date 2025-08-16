@@ -37,6 +37,8 @@ struct DailyActivityView: View {
                                 ) {
                                     selectedHour = hour
                                     showingActionSheet = true
+                                } onTextInput: {
+                                    viewModel.showTextInput(for: hour)
                                 }
                                 .listRowSeparator(.visible)
                                 .id(hour)
@@ -58,6 +60,17 @@ struct DailyActivityView: View {
             .navigationBarTitleDisplayMode(.large)
             .actionSheet(isPresented: $showingActionSheet) {
                 createActionSheet()
+            }
+            .alert("活動内容を入力", isPresented: $viewModel.isShowingTextInput) {
+                TextField("活動内容", text: $viewModel.activityText)
+                Button("保存") {
+                    viewModel.updateActivity(for: viewModel.selectedHour, activity: viewModel.activityText)
+                }
+                Button("キャンセル", role: .cancel) {
+                    viewModel.hideTextInput()
+                }
+            } message: {
+                Text("\(viewModel.selectedHour)時の活動内容")
             }
         }
     }
