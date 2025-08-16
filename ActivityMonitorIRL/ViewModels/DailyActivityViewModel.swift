@@ -58,6 +58,26 @@ class DailyActivityViewModel: ObservableObject {
         }
     }
     
+    func updatePointsForMultipleHours(hours: [Int], points: Int) {
+        guard points >= 0 && points <= 6 else { return }
+        
+        let targetDate = calendar.startOfDay(for: selectedDate)
+        let records = hours.compactMap { hour -> ActivityRecord? in
+            guard hour >= 0 && hour < 24 else { return nil }
+            return ActivityRecord(date: targetDate, hour: hour, activityPoints: points)
+        }
+        
+        do {
+            try repository.saveMultiple(records)
+            // UI更新
+            for record in records {
+                hourlyRecords[record.hour] = record
+            }
+        } catch {
+            print("Failed to save multiple activity records: \(error)")
+        }
+    }
+    
     func changeDate(to date: Date) {
         selectedDate = date
         loadActivityRecords(for: date)

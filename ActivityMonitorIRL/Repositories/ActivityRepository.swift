@@ -25,6 +25,31 @@ class ActivityRepository {
         try db.run(insert)
     }
     
+    func saveMultiple(_ records: [ActivityRecord]) throws {
+        guard let db else {
+            throw DatabaseError.connectionNotAvailable
+        }
+        
+        // バリデーション
+        for record in records {
+            guard record.hour >= 0 && record.hour <= 23 else {
+                throw DatabaseError.invalidHour
+            }
+            
+            guard record.activityPoints >= 0 && record.activityPoints <= 6 else {
+                throw DatabaseError.invalidActivityPoints
+            }
+        }
+        
+        // トランザクションで一括処理
+        try db.transaction {
+            for record in records {
+                let insert = ActivityRecord.table.insert(or: .replace, record.insertValues)
+                try db.run(insert)
+            }
+        }
+    }
+    
     func findByDate(_ date: Date) throws -> [ActivityRecord] {
         guard let db else {
             throw DatabaseError.connectionNotAvailable
