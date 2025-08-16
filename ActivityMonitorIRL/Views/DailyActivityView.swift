@@ -1,5 +1,20 @@
 import SwiftUI
 
+struct PointDefinition {
+    let point: Int
+    let description: String
+}
+
+let pointDefinitions: [PointDefinition] = [
+    .init(point: 0, description: "寝ている相当"),
+    .init(point: 1, description: "食事風呂家事"),
+    .init(point: 2, description: "友達と遊ぶ相当"),
+    .init(point: 3, description: "平均的な仕事"),
+    .init(point: 4, description: "結構な集中力"),
+    .init(point: 5, description: "コンテスト中の集中力"),
+    .init(point: 6, description: "リリース直前の集中力")
+]
+
 struct DailyActivityView: View {
     @StateObject private var viewModel = DailyActivityViewModel()
     @State private var selectedHour: Int?
@@ -51,16 +66,29 @@ struct DailyActivityView: View {
         guard let hour = selectedHour else {
             return ActionSheet(title: Text("エラー"))
         }
-        
-        let buttons: [ActionSheet.Button] = (0...6).map { point in
-            .default(Text("\(point)ポイント")) {
-                viewModel.updatePoints(for: hour, points: point)
+
+        var buttons: [ActionSheet.Button] = pointDefinitions.map { definition in
+                .default(Text("\(definition.point)pt: \(definition.description)")) {
+                    viewModel.updatePoints(for: hour, points: definition.point)
             }
         } + [.cancel(Text("キャンセル"))]
+
+        // 0時から選択中の時刻まで全てのActivityRecordが生成されていない場合
+        let allRecordsMissing = (0...hour).allSatisfy { h in
+            viewModel.hourlyRecords[h] == nil
+        }
         
+        if allRecordsMissing {
+            buttons.insert(
+                .default(Text("起床")) {
+                    viewModel.updatePointsForMultipleHours(hours: Array(0...hour), points: 0)
+                },
+                at: 0
+            )
+        }
+
         return ActionSheet(
-            title: Text("\(hour):00の活動ポイント"),
-            message: Text("0〜6ポイントから選択してください"),
+            title: Text("\(hour)時の活動スコア入力"),
             buttons: buttons
         )
     }
