@@ -74,9 +74,7 @@ struct DailyActivityView: View {
         } + [.cancel(Text("キャンセル"))]
 
         // 0時から選択中の時刻まで全てのActivityRecordが生成されていない場合
-        let allRecordsMissing = (0...hour).allSatisfy { h in
-            viewModel.hourlyRecords[h] == nil
-        }
+        let allRecordsMissing = (0...hour).allSatisfy { viewModel.hourlyRecords[$0] == nil }
         
         if allRecordsMissing {
             buttons.insert(

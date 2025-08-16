@@ -38,6 +38,7 @@
 		2C3177A22E4ECCCE00A282BB /* ActivityMonitorIRL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityMonitorIRL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C3177B22E4ECCD000A282BB /* ActivityMonitorIRLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ActivityMonitorIRLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C3177BC2E4ECCD000A282BB /* ActivityMonitorIRLUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ActivityMonitorIRLUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CA91B322E50750100591925 /* デザインパターン.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "デザインパターン.md"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -87,6 +88,7 @@
 		2C1580712E4EEE350070B66F /* docs */ = {
 			isa = PBXGroup;
 			children = (
+				2CA91B322E50750100591925 /* デザインパターン.md */,
 			);
 			path = docs;
 			sourceTree = "<group>";
