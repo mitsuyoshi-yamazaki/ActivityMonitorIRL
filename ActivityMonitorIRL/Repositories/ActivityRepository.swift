@@ -113,6 +113,38 @@ class ActivityRepository {
         
         return try db.prepare(query).map { ActivityRecord(row: $0) }
     }
+
+    func getUnrecordedHourRange(for date: Date, includes hour: Int) throws -> (startHour: Int, endHour: Int)? {
+        let sanitizedDate = Calendar.current.startOfDay(for: date)
+        let records = try findByDate(sanitizedDate)
+
+        guard !records.contains(where: { $0.hour == hour }) else {
+            return nil // hour に記録がある場合 = UnrecordedHourRangeがない
+        }
+
+        let startHour = records.reduce(0) { partialResult, record in
+            guard record.hour < hour else {
+                return partialResult
+            }
+            if record.hour < partialResult {
+                return partialResult
+            } else {
+                return record.hour + 1
+            }
+        }
+        let endHour = records.reduce(23) { partialResult, record in
+            guard record.hour > hour else {
+                return partialResult
+            }
+            if record.hour > partialResult {
+                return partialResult
+            } else {
+                return record.hour - 1
+            }
+        }
+
+        return (startHour, endHour)
+    }
 }
 
 enum DatabaseError: Error {

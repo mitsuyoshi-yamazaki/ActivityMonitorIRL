@@ -18,7 +18,15 @@ class DailyActivityViewModel: ObservableObject {
     var totalPoints: Int {
         hourlyRecords.values.reduce(0) { $0 + $1.activityPoints }
     }
-    
+
+    var yesterday: Date? {
+        return Calendar.current.date(byAdding: .day, value: -1, to: selectedDate)
+    }
+
+    var tomorrow: Date? {
+        return Calendar.current.date(byAdding: .day, value: 1, to: selectedDate)
+    }
+
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ja_JP") // 日本語の曜日を出す
@@ -76,12 +84,18 @@ class DailyActivityViewModel: ObservableObject {
         }
     }
     
-    func updatePointsForMultipleHours(hours: [Int], points: Int) {
+    func updatePointsForMultipleHours(hours: [Int], points: Int, `for` date: Date? = nil) {
         guard points >= 0 && points <= 6 else { return }
-        
+        let targetDate: Date
+        if let date {
+            targetDate = Calendar.current.startOfDay(for: date)
+        } else {
+            targetDate = selectedDate
+        }
+
         let records = hours.compactMap { hour -> ActivityRecord? in
             guard hour >= 0 && hour < 24 else { return nil }
-            return ActivityRecord(date: selectedDate, hour: hour, activityPoints: points, activity: nil)
+            return ActivityRecord(date: targetDate, hour: hour, activityPoints: points, activity: nil)
         }
         
         do {
@@ -101,14 +115,14 @@ class DailyActivityViewModel: ObservableObject {
     }
 
     func changeToPreviousDate() {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) else {
+        guard let yesterday else {
             return
         }
         changeDate(to: yesterday)
     }
 
     func changeToNextDate() {
-        guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) else {
+        guard let tomorrow else {
             return
         }
         changeDate(to: tomorrow)
@@ -148,5 +162,18 @@ class DailyActivityViewModel: ObservableObject {
         } catch {
             print("Failed to update activity: \(error)")
         }
+    }
+
+    func isWakeUpHour(hour: Int) -> Bool {
+        return (0...hour).allSatisfy { self.hourlyRecords[$0] == nil }
+    }
+
+    func createSleepActivities(wakeUpHour: Int) {
+        guard let yesterday, let yesterdaySleepingHours = try? repository.getUnrecordedHourRange(for: yesterday, includes: 23) else {
+            return
+        }
+
+        updatePointsForMultipleHours(hours: Array(yesterdaySleepingHours.startHour...yesterdaySleepingHours.endHour), points: 0, for: yesterday)
+        updatePointsForMultipleHours(hours: Array(0...wakeUpHour), points: 0)
     }
 }

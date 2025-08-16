@@ -104,13 +104,10 @@ struct DailyActivityView: View {
             }
         } + [.cancel(Text("キャンセル"))]
 
-        // 0時から選択中の時刻まで全てのActivityRecordが生成されていない場合
-        let allRecordsMissing = (0...hour).allSatisfy { viewModel.hourlyRecords[$0] == nil }
-        
-        if allRecordsMissing {
+        if viewModel.isWakeUpHour(hour: hour) {
             buttons.insert(
                 .default(Text("起床")) {
-                    viewModel.updatePointsForMultipleHours(hours: Array(0...hour), points: 0)
+                    viewModel.createSleepActivities(wakeUpHour: hour)
                 },
                 at: 0
             )
