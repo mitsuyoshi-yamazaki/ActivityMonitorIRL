@@ -38,7 +38,7 @@ class DailyActivityViewModel: ObservableObject {
     
     func getDisplayText(for hour: Int) -> String {
         if let record = hourlyRecords[hour] {
-            return "\(record.activityPoints)"
+            return "\(record.activityPoints)pt"
         } else {
             return "-"
         }
@@ -48,7 +48,7 @@ class DailyActivityViewModel: ObservableObject {
         guard hour >= 0 && hour < 24 && points >= 0 && points <= 6 else { return }
         
         let targetDate = calendar.startOfDay(for: selectedDate)
-        let record = ActivityRecord(date: targetDate, hour: hour, activityPoints: points)
+        let record = ActivityRecord(date: targetDate, hour: hour, activityPoints: points, activity: nil)
         
         do {
             try repository.save(record)
@@ -64,7 +64,7 @@ class DailyActivityViewModel: ObservableObject {
         let targetDate = calendar.startOfDay(for: selectedDate)
         let records = hours.compactMap { hour -> ActivityRecord? in
             guard hour >= 0 && hour < 24 else { return nil }
-            return ActivityRecord(date: targetDate, hour: hour, activityPoints: points)
+            return ActivityRecord(date: targetDate, hour: hour, activityPoints: points, activity: nil)
         }
         
         do {

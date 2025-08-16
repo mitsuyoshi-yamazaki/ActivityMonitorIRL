@@ -6,7 +6,8 @@ class TestDatabaseConnection {
         let testRecord = ActivityRecord(
             date: Date(),
             hour: 12,
-            activityPoints: 3
+            activityPoints: 3,
+            activity: "test"
         )
         
         do {

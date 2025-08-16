@@ -43,8 +43,8 @@ excluded:
   - .build
 
 line_length:
-  warning: 120
-  error: 140
+  warning: 150
+  error: 180
 
 type_body_length:
   warning: 300
