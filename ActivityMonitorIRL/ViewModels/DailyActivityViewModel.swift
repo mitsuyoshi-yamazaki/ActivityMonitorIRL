@@ -16,13 +16,13 @@ class DailyActivityViewModel: ObservableObject {
         hourlyRecords.values.reduce(0) { $0 + $1.activityPoints }
     }
     
-    var dateFormatter: DateFormatter {
+    private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        formatter.locale = Locale(identifier: "ja_JP")
+        formatter.locale = Locale(identifier: "ja_JP") // 日本語の曜日を出す
+        formatter.dateFormat = "yyyy/MM/dd (E)"
         return formatter
-    }
-    
+    }()
+
     init() {
         loadActivityRecords(for: selectedDate)
     }
@@ -38,7 +38,12 @@ class DailyActivityViewModel: ObservableObject {
         }
         isLoading = false
     }
-    
+
+    func getTitle() -> String {
+        let date = dateFormatter.string(from: selectedDate)
+        return "\(date) \(totalPoints)pt"
+    }
+
     func getDisplayText(for hour: Int) -> String {
         if let record = hourlyRecords[hour] {
             return "\(record.activityPoints)pt"

@@ -57,8 +57,8 @@ struct DailyActivityView: View {
                     }
                 }
             }
-            .navigationTitle(viewModel.dateFormatter.string(from: viewModel.selectedDate))
-            .navigationBarTitleDisplayMode(.large)
+            .navigationTitle(viewModel.getTitle())
+            .navigationBarTitleDisplayMode(.inline)
             .actionSheet(isPresented: $showingActionSheet) {
                 createActionSheet()
             }
