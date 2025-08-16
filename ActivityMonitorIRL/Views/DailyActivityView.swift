@@ -22,7 +22,7 @@ struct DailyActivityView: View {
     @Environment(\.scenePhase) var scenePhase
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 0) {
                 if viewModel.isLoading {
                     ProgressView()
