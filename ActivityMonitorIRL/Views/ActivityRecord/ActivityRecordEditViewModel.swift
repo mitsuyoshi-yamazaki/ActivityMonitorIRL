@@ -81,11 +81,11 @@ class ActivityRecordEditViewModel: ObservableObject {
             if let existingRecord = try repository.findByDateAndHour(date, hour: hour) {
                 return existingRecord.activityPoints != selectedPoints || existingRecord.activity != activity
             } else {
-                // 新規レコードの場合、0以外またはactivityが入力されていれば変更あり
-                return selectedPoints != 0 || activity != nil
+                // 新規レコードの場合は（selectedPointsには値が入っているため）常に保存内容がある状態
+                return true
             }
         } catch {
-            return selectedPoints != 0 || activity != nil
+            return true // フェッチに失敗した場合はtrueとする
         }
     }
 }
