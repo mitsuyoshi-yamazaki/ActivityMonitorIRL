@@ -5,7 +5,6 @@ struct HourRow: View {
     let displayText: String
     let activity: String?
     let onTap: () -> Void
-    let onTextInput: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -37,19 +36,15 @@ struct HourRow: View {
         .background(Color(.systemBackground))
         .contentShape(Rectangle())
         .onTapGesture {
-            if displayText == "-" {
-                onTap()
-            } else {
-                onTextInput()
-            }
+            onTap()
         }
     }
 }
 
 #Preview {
     VStack {
-        HourRow(hour: 9, displayText: "5", activity: "test activity") { } onTextInput: { }
-        HourRow(hour: 10, displayText: "-", activity: nil) { } onTextInput: { }
-        HourRow(hour: 23, displayText: "3", activity: nil) { } onTextInput: { }
+        HourRow(hour: 9, displayText: "5", activity: "test activity") { }
+        HourRow(hour: 10, displayText: "-", activity: nil) { }
+        HourRow(hour: 23, displayText: "3", activity: nil) { }
     }
 }
