@@ -68,20 +68,31 @@
 ```
 
 ### ディレクトリ構造
+**ファイル配置方針**: 技術レイヤー別ではなく、ドメイン/機能別にView/ViewModelを同一フォルダに配置
+
 ```
 ActivityMonitorIRL/
 ├── Models/
-│   └── ActivityRecord.swift           # 活動記録モデル
-├── ViewModels/
-│   └── DailyActivityViewModel.swift   # 日別画面の状態管理
+│   └── ActivityRecord/
+│       ├── ActivityRecord.swift       # 活動記録モデル
+│       └── ActivityRepository.swift   # データアクセス層
 ├── Views/
-│   ├── DailyActivityView.swift        # 日別記録画面
+│   ├── DailyActivity/
+│   │   ├── DailyActivityView.swift
+│   │   └── DailyActivityViewModel.swift
+│   ├── HistorySummary/
+│   │   ├── HistorySummaryView.swift
+│   │   └── HistorySummaryViewModel.swift
+│   ├── ActivityRecord/
+│   │   ├── ActivityRecordEditView.swift
+│   │   └── ActivityRecordEditViewModel.swift
+│   ├── Settings/
+│   │   ├── SettingsView.swift
+│   │   └── SettingsViewModel.swift
 │   └── Components/
-│       └── HourRow.swift              # 時刻行コンポーネント
+│       └── HourRow.swift              # 共通コンポーネント
 ├── Database/
 │   └── DatabaseManager.swift          # SQLite接続管理
-├── Repositories/
-│   └── ActivityRepository.swift       # データアクセス層
 └── Extensions/
     └── Date+SQLite.swift              # Date型SQLite対応
 ```
