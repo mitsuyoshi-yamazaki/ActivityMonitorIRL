@@ -1,9 +1,14 @@
 import SwiftUI
 
+struct SelectedRecord: Identifiable {
+    let id = UUID()
+    let hour: Int
+    let date: Date
+}
+
 struct DailyActivityView: View {
     @StateObject private var viewModel = DailyActivityViewModel()
-    @State private var selectedHour: Int?
-    @State private var showingEditView = false
+    @State private var selectedRecord: SelectedRecord?
     @Environment(\.scenePhase) var scenePhase
     
     var body: some View {
@@ -21,8 +26,7 @@ struct DailyActivityView: View {
                                     displayText: viewModel.getDisplayText(for: hour),
                                     activity: viewModel.getActivity(for: hour)
                                 ) {
-                                    selectedHour = hour
-                                    showingEditView = true
+                                    selectedRecord = SelectedRecord(hour: hour, date: viewModel.selectedDate)
                                 }
                                 .listRowSeparator(.visible)
                                 .id(hour)
@@ -59,18 +63,16 @@ struct DailyActivityView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showingEditView) {
-                if let selectedHour = selectedHour {
-                    ActivityRecordEditView(
-                        hour: selectedHour,
-                        date: viewModel.selectedDate,
-                        initialPoints: getCurrentPoints(for: selectedHour)
-                    ) {
-                        viewModel.loadActivityRecords(for: viewModel.selectedDate)
-                    }
-                    .presentationDetents([.height(450)])
-                    .presentationDragIndicator(.visible)
+            .sheet(item: $selectedRecord) { record in
+                ActivityRecordEditView(
+                    hour: record.hour,
+                    date: record.date,
+                    initialPoints: getCurrentPoints(for: record.hour)
+                ) {
+                    viewModel.loadActivityRecords(for: viewModel.selectedDate)
                 }
+                .presentationDetents([.height(450)])
+                .presentationDragIndicator(.visible)
             }
         }
     }
