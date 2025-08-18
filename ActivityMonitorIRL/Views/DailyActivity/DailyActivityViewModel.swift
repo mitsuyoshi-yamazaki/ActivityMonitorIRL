@@ -34,7 +34,10 @@ class DailyActivityViewModel: ObservableObject {
         return formatter
     }()
 
-    init() {
+    init(initialDate: Date? = nil) {
+        if let initialDate {
+            _selectedDate = Calendar.current.startOfDay(for: initialDate)
+        }
         loadActivityRecords(for: selectedDate)
     }
     

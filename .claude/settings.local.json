@@ -6,7 +6,8 @@
       "WebSearch",
       "WebFetch(domain:realm.github.io)",
       "WebFetch(domain:github.com)",
-      "Bash(swiftc:*)"
+      "Bash(swiftc:*)",
+      "Bash(swift:*)"
     ],
     "defaultMode": "acceptEdits"
   }

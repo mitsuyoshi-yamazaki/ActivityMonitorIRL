@@ -145,6 +145,33 @@ class ActivityRepository {
 
         return (startHour, endHour)
     }
+    
+    func getUniqueDates() throws -> [Date] {
+        guard let db else {
+            throw DatabaseError.connectionNotAvailable
+        }
+        
+        let query = ActivityRecord.table
+            .select(distinct: ActivityRecord.dateColumn)
+            .order(ActivityRecord.dateColumn.desc)
+        
+        return try db.prepare(query).map { row in
+            row[ActivityRecord.dateColumn]
+        }
+    }
+    
+    func getTotalActivityPoints(for date: Date) throws -> Int {
+        let records = try findByDate(date)
+        return records.reduce(0) { $0 + $1.activityPoints }
+    }
+    
+    func getDailySummaries() throws -> [DailySummary] {
+        let uniqueDates = try getUniqueDates()
+        return try uniqueDates.map { date in
+            let totalPoints = try getTotalActivityPoints(for: date)
+            return DailySummary(date: date, totalActivityPoints: totalPoints)
+        }
+    }
 }
 
 enum DatabaseError: Error {

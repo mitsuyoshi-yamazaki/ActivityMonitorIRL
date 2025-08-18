@@ -1,41 +1,39 @@
 import SwiftUI
 import Foundation
 
-struct DayRecord {
-    let date: Date
-    let totalPoints: Int
-}
-
 class HistorySummaryViewModel: ObservableObject {
-    @Published var dayRecords: [DayRecord] = []
-    @Published var selectedPeriod: TimePeriod = .week
+    @Published var dailySummaries: [DailySummary] = []
+    @Published var isLoading = false
     
-    enum TimePeriod: String, CaseIterable {
-        case week = "週"
-        case month = "月"
-        case year = "年"
+    private let repository = ActivityRepository()
+    
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ja_JP")
+        formatter.dateFormat = "yyyy/MM/dd (E)"
+        return formatter
+    }()
+    
+    init() {
+        loadDailySummaries()
     }
     
-    var filteredRecords: [DayRecord] {
-        let calendar = Calendar.current
-        let now = Date()
-        
-        switch selectedPeriod {
-        case .week:
-            let weekAgo = calendar.date(byAdding: .day, value: -7, to: now) ?? now
-            return dayRecords.filter { $0.date >= weekAgo }
-        case .month:
-            let monthAgo = calendar.date(byAdding: .month, value: -1, to: now) ?? now
-            return dayRecords.filter { $0.date >= monthAgo }
-        case .year:
-            let yearAgo = calendar.date(byAdding: .year, value: -1, to: now) ?? now
-            return dayRecords.filter { $0.date >= yearAgo }
+    func loadDailySummaries() {
+        isLoading = true
+        do {
+            dailySummaries = try repository.getDailySummaries()
+        } catch {
+            print("Failed to load daily summaries: \(error)")
+            dailySummaries = []
         }
+        isLoading = false
     }
     
-    var averagePoints: Double {
-        guard !filteredRecords.isEmpty else { return 0 }
-        let total = filteredRecords.reduce(0) { $0 + $1.totalPoints }
-        return Double(total) / Double(filteredRecords.count)
+    func formatDate(_ date: Date) -> String {
+        return dateFormatter.string(from: date)
+    }
+    
+    func refresh() {
+        loadDailySummaries()
     }
 }

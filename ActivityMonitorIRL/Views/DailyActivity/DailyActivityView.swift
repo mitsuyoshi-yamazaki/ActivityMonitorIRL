@@ -7,9 +7,13 @@ struct SelectedRecord: Identifiable {
 }
 
 struct DailyActivityView: View {
-    @StateObject private var viewModel = DailyActivityViewModel()
+    @StateObject private var viewModel: DailyActivityViewModel
     @State private var selectedRecord: SelectedRecord?
     @Environment(\.scenePhase) var scenePhase
+    
+    init(initialDate: Date? = nil) {
+        self._viewModel = StateObject(wrappedValue: DailyActivityViewModel(initialDate: initialDate))
+    }
     
     var body: some View {
         NavigationStack {
