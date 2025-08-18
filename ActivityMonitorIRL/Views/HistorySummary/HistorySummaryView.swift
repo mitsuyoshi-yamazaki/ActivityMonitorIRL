@@ -39,12 +39,6 @@ struct HistorySummaryView: View {
                                             .fontWeight(.semibold)
                                             .foregroundColor(.blue)
                                     }
-                                    
-                                    Spacer()
-                                    
-                                    Image(systemName: "chevron.right")
-                                        .foregroundColor(.secondary)
-                                        .font(.caption)
                                 }
                                 .padding(.vertical, 4)
                             }
@@ -56,7 +50,7 @@ struct HistorySummaryView: View {
                     }
                 }
             }
-            .navigationTitle("履歴集計")
+            .navigationTitle("集計")
             .onAppear {
                 viewModel.refresh()
             }

@@ -16,7 +16,7 @@ struct MainTabView: View {
             }
             .tabItem {
                 Image(systemName: "chart.bar")
-                Text("履歴集計")
+                Text("集計")
             }
             
             NavigationStack {

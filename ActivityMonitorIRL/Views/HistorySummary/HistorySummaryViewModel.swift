@@ -21,7 +21,9 @@ class HistorySummaryViewModel: ObservableObject {
     func loadDailySummaries() {
         isLoading = true
         do {
-            dailySummaries = try repository.getDailySummaries()
+            dailySummaries = (try repository.getDailySummaries()).sorted(by: { lhs, rhs in
+                return lhs.date > rhs.date
+            })
         } catch {
             print("Failed to load daily summaries: \(error)")
             dailySummaries = []
