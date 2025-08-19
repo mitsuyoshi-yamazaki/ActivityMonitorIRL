@@ -8,7 +8,8 @@
       "WebFetch(domain:github.com)",
       "Bash(swiftc:*)",
       "Bash(swift:*)",
-      "WebFetch(domain:developer.apple.com)"
+      "WebFetch(domain:developer.apple.com)",
+      "Bash(find:*)"
     ],
     "defaultMode": "acceptEdits"
   }
