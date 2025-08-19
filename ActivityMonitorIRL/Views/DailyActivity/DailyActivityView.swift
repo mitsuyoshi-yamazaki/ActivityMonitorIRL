@@ -11,8 +11,13 @@ struct DailyActivityView: View {
     @State private var selectedRecord: SelectedRecord?
     @Environment(\.scenePhase) var scenePhase
     
-    init(initialDate: Date? = nil) {
+    let shouldShowQuickRecord: Bool
+    let quickRecordHour: Int?
+    
+    init(initialDate: Date? = nil, shouldShowQuickRecord: Bool = false, quickRecordHour: Int? = nil) {
         self._viewModel = StateObject(wrappedValue: DailyActivityViewModel(initialDate: initialDate))
+        self.shouldShowQuickRecord = shouldShowQuickRecord
+        self.quickRecordHour = quickRecordHour
     }
     
     var body: some View {
@@ -39,6 +44,7 @@ struct DailyActivityView: View {
                         .listStyle(.plain)
                         .onAppear {
                             scrollToCurrentHourIfNeeded(proxy: proxy)
+                            handleQuickRecord()
                         }
                         .onChange(of: scenePhase) { newPhase in
                             if newPhase == .active {
@@ -93,6 +99,21 @@ struct DailyActivityView: View {
         if viewModel.getDisplayText(for: currentHour) == "-" && !viewModel.isLoading {
             withAnimation(.easeInOut(duration: 0.5)) {
                 proxy.scrollTo(currentHour, anchor: .center)
+            }
+        }
+    }
+    
+    private func handleQuickRecord() {
+        if shouldShowQuickRecord, let hour = quickRecordHour {
+            // 今日の日付に設定
+            let today = Date()
+            if !Calendar.current.isDate(today, equalTo: viewModel.selectedDate, toGranularity: .day) {
+                viewModel.changeDate(to: today)
+            }
+            
+            // モーダルを表示
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                selectedRecord = SelectedRecord(hour: hour, date: today)
             }
         }
     }
