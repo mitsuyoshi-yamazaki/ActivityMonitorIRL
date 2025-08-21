@@ -1,12 +1,5 @@
 import SwiftUI
 
-// TODO: 消す
-//struct SelectedRecord: Identifiable {
-//    let id = UUID()
-//    let hour: Int
-//    let date: Date
-//}
-
 struct DailyActivityView: View {
     @StateObject private var viewModel: DailyActivityViewModel
     @State private var selectedRecord: ActivityRecordPlaceholder?
@@ -57,6 +50,8 @@ struct DailyActivityView: View {
             }
             .navigationTitle(viewModel.getTitle())
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarColorScheme(viewModel.isToday ? nil : .dark, for: .navigationBar)
+            .toolbarBackground(viewModel.isToday ? .clear : .gray, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {

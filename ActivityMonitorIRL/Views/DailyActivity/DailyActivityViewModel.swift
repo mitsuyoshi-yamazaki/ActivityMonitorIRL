@@ -57,6 +57,10 @@ class DailyActivityViewModel: ObservableObject {
         let date = dateFormatter.string(from: selectedDate)
         return "\(date) \(totalPoints)pt"
     }
+    
+    var isToday: Bool {
+        Calendar.current.isDateInToday(selectedDate)
+    }
 
     func getPlaceholder(for hour: Int) -> ActivityRecordPlaceholder {
         if let record = hourlyRecords[hour] {
