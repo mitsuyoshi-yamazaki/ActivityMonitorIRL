@@ -4,7 +4,6 @@ import SQLite
 struct WidgetActivityData {
     let todayTotal: Int
     let currentHourActivity: Int?
-    let lastUpdateTime: Date
 }
 
 class WidgetActivityRepository {
@@ -16,7 +15,6 @@ class WidgetActivityRepository {
         return WidgetActivityData(
             todayTotal: summary.totalPoints,
             currentHourActivity: summary.currentHourActivity,
-            lastUpdateTime: Date()
         )
     }
     

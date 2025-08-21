@@ -6,7 +6,6 @@ struct Provider: TimelineProvider {
         SimpleEntry(date: Date(), activityData: WidgetActivityData(
             todayTotal: 24,
             currentHourActivity: 3,
-            lastUpdateTime: Date()
         ))
     }
 
@@ -45,10 +44,6 @@ struct ActivityMonitorWidgetEntryView: View {
         switch family {
         case .accessoryCircular:
             AccessoryCircularView(entry: entry)
-        case .accessoryRectangular:
-            AccessoryRectangularView(entry: entry)
-        case .accessoryInline:
-            AccessoryInlineView(entry: entry)
         default:
             Text("未対応")
         }
@@ -65,6 +60,6 @@ struct ActivityMonitorWidget: Widget {
         }
         .configurationDisplayName("活動記録")
         .description("今日の活動記録を表示し、素早く記録できます。")
-        .supportedFamilies([.accessoryCircular, .accessoryRectangular, .accessoryInline])
+        .supportedFamilies([.accessoryCircular])
     }
 }
