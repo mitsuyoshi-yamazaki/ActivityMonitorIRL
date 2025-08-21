@@ -1,5 +1,6 @@
 import Foundation
 import SQLite
+import WidgetKit
 
 class ActivityRepository {
     private let db: Connection?
@@ -23,6 +24,7 @@ class ActivityRepository {
         
         let insert = ActivityRecord.table.insert(or: .replace, record.insertValues)
         try db.run(insert)
+        reloadWidgetData(record: record)
     }
     
     func saveMultiple(_ records: [ActivityRecord]) throws {
@@ -48,6 +50,7 @@ class ActivityRepository {
                 try db.run(insert)
             }
         }
+        reloadWidgetData(records: records)
     }
     
     func findByDate(_ date: Date) throws -> [ActivityRecord] {
@@ -101,6 +104,7 @@ class ActivityRepository {
             .filter(ActivityRecord.dateColumn == startOfDay && ActivityRecord.hourColumn == record.hour)
         
         try db.run(query.delete())
+        reloadWidgetData(record: record)
     }
     
     func findAll() throws -> [ActivityRecord] {
@@ -171,6 +175,31 @@ class ActivityRepository {
             let totalPoints = try getTotalActivityPoints(for: date)
             return DailySummary(date: date, totalActivityPoints: totalPoints)
         }
+    }
+
+    private func reloadWidgetData(record: ActivityRecord) {
+        guard Calendar.current.isDateInToday(record.date) else {
+            return
+        }
+        updateWidgetData()
+    }
+
+    private func reloadWidgetData(records: [ActivityRecord]) {
+        guard records.contains(where: {Calendar.current.isDateInToday($0.date)}) else {
+            return
+        }
+        updateWidgetData()
+    }
+
+    private func updateWidgetData() {
+        guard let records = try? findByDate(Date()) else {
+            return
+        }
+        let points = records.reduce(into: [Int: Int]()) { partialResult, record in
+            partialResult[record.hour] = record.activityPoints
+        }
+        UserDefaults.appGroup.todaySummary = points
+        WidgetCenter.shared.reloadTimelines(ofKind: "ActivityMonitorWidget")
     }
 }
 

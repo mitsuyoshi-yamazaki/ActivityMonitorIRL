@@ -88,8 +88,8 @@
 		2CA91BE42E569E5F00591925 /* Exceptions for "ActivityMonitorIRL" folder in "ActivityMonitorWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Database/SharedDatabaseManager.swift,
 				"Extensions/Date+SQLite.swift",
+				"Extensions/UserDefaults+AppGroups.swift",
 				Models/ActivityRecord/ActivityRecord.swift,
 			);
 			target = 2CA91BC12E569B3600591925 /* ActivityMonitorWidgetExtension */;

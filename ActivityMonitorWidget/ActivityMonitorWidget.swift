@@ -3,9 +3,10 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), activityData: WidgetActivityData(
-            todayTotal: 24,
-            currentHourActivity: 3,
+        let currentHour = Calendar.current.component(.hour, from: Date())
+        return SimpleEntry(date: Date(), activityData: .init(
+            todayTotal: nil,
+            currentHourActivity: .init(hour: currentHour, point: nil),
         ))
     }
 

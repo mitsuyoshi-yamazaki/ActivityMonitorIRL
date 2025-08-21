@@ -86,10 +86,6 @@ struct DailyActivityView: View {
         }
     }
     
-//    private func getCurrentPoints(for hour: Int) -> Int {
-//        return viewModel.hourlyRecords[hour]?.activityPoints ?? 0
-//    }
-    
     private func scrollToCurrentHourIfNeeded(proxy: ScrollViewProxy) {
         let currentHour = Calendar.current.component(.hour, from: Date())
         
