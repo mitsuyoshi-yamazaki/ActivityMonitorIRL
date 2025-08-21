@@ -94,6 +94,44 @@ class ActivityRecordEditViewModel: ObservableObject {
         isLoading = false
     }
     
+    func saveBatchRecords() {
+        guard !isLoading else {
+            print("\(date) \(hour) は一括保存中です")
+            return
+        }
+
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            guard let unrecordedRange = try repository.getUnrecordedHourRange(for: date, includes: hour) else {
+                errorMessage = "一括保存対象の時間帯が見つかりませんでした"
+                isLoading = false
+                return
+            }
+            
+            var recordsToSave: [ActivityRecord] = []
+            
+            for targetHour in unrecordedRange.startHour...hour {
+                let record = ActivityRecord(
+                    date: date,
+                    hour: targetHour,
+                    activityPoints: selectedPoints,
+                    activity: activity
+                )
+                recordsToSave.append(record)
+            }
+            
+            try repository.saveMultiple(recordsToSave)
+            isSaved = true
+            onSave?()
+        } catch {
+            errorMessage = "一括保存に失敗しました: \(error.localizedDescription)"
+        }
+        
+        isLoading = false
+    }
+    
     var currentDescription: String {
         pointDefinitions.first { $0.point == selectedPoints }?.description ?? "不明"
     }
@@ -104,5 +142,30 @@ class ActivityRecordEditViewModel: ObservableObject {
     
     var hasChanges: Bool {
         return initialPoints != selectedPoints || initialActivity != activity
+    }
+    
+    var shouldShowBatchSaveButton: Bool {
+        let currentHasRecord = hasRecord(date: date, hour: hour)
+        let previousDateTime = getPreviousDateTime()
+        let previousHasRecord = hasRecord(date: previousDateTime.date, hour: previousDateTime.hour)
+        
+        return !currentHasRecord && !previousHasRecord
+    }
+    
+    private func getPreviousDateTime() -> (date: Date, hour: Int) {
+        if hour == 0 {
+            let previousDate = Calendar.current.date(byAdding: .day, value: -1, to: date) ?? date
+            return (date: previousDate, hour: 23)
+        } else {
+            return (date: date, hour: hour - 1)
+        }
+    }
+    
+    private func hasRecord(date: Date, hour: Int) -> Bool {
+        do {
+            return try repository.findByDateAndHour(date, hour: hour) != nil
+        } catch {
+            return false
+        }
     }
 }

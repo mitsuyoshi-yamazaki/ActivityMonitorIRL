@@ -23,7 +23,7 @@ class WidgetActivityRepository {
 
         return .init(
             todayTotal: totalPoints,
-            currentHourActivity: .init(hour: currentHour, point: currentHourActivityPoint),
+            currentHourActivity: .init(hour: currentHour, point: currentHourActivityPoint)
         )
     }
 }

@@ -142,6 +142,18 @@ struct ActivityRecordEditView: View {
                 .foregroundColor(viewModel.hasChanges ? .white : .secondary)
                 .cornerRadius(8)
                 .disabled(!viewModel.hasChanges)
+                
+                if viewModel.shouldShowBatchSaveButton {
+                    Button("一括保存") {
+                        viewModel.saveBatchRecords()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(viewModel.hasChanges ? Color.accentColor : Color(.systemGray4))
+                    .foregroundColor(viewModel.hasChanges ? .white : .secondary)
+                    .cornerRadius(8)
+                    .disabled(!viewModel.hasChanges)
+                }
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 20)
