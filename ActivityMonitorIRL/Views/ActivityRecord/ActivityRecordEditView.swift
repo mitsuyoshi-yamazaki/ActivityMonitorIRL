@@ -69,9 +69,11 @@ struct ActivityRecordEditView: View {
             
             HStack(spacing: 0) {
                 ForEach(0...6, id: \.self) { point in
-                    Button(action: {
-                        viewModel.selectedPoints = point
-                    }) {
+                    Button(
+                        action: {
+                            viewModel.selectedPoints = point
+                        },
+                        label: {
                         VStack(spacing: 4) {
                             Circle()
                                 .fill(viewModel.selectedPoints == point ? Color.accentColor : Color(.systemGray4))
@@ -81,7 +83,7 @@ struct ActivityRecordEditView: View {
                                 .font(.caption)
                                 .foregroundColor(viewModel.selectedPoints == point ? .primary : .secondary)
                         }
-                    }
+                    })
                     .frame(maxWidth: .infinity)
                 }
             }

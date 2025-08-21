@@ -10,6 +10,10 @@
 		2C15806E2E4ECF010070B66F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2C15806D2E4ECF010070B66F /* .gitignore */; };
 		2C1580702E4ECFD50070B66F /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C15806F2E4ECFD50070B66F /* CLAUDE.md */; };
 		2C1580C12E4F055E0070B66F /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 2C1580C02E4F055E0070B66F /* SQLite */; };
+		2CA91BC42E569B3600591925 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA91BC32E569B3600591925 /* WidgetKit.framework */; };
+		2CA91BC62E569B3600591925 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA91BC52E569B3600591925 /* SwiftUI.framework */; };
+		2CA91BD72E569B3900591925 /* ActivityMonitorWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2CA91BC22E569B3600591925 /* ActivityMonitorWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2CA91BE22E569DE100591925 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 2CA91BE12E569DE100591925 /* SQLite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,7 +31,28 @@
 			remoteGlobalIDString = 2C3177A12E4ECCCE00A282BB;
 			remoteInfo = ActivityMonitorIRL;
 		};
+		2CA91BD52E569B3900591925 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2C31779A2E4ECCCE00A282BB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2CA91BC12E569B3600591925;
+			remoteInfo = ActivityMonitorWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2CA91BDC2E569B3900591925 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2CA91BD72E569B3900591925 /* ActivityMonitorWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2C15806D2E4ECF010070B66F /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -39,6 +64,10 @@
 		2C3177B22E4ECCD000A282BB /* ActivityMonitorIRLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ActivityMonitorIRLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C3177BC2E4ECCD000A282BB /* ActivityMonitorIRLUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ActivityMonitorIRLUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CA91B322E50750100591925 /* デザインパターン.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "デザインパターン.md"; sourceTree = "<group>"; };
+		2CA91BC22E569B3600591925 /* ActivityMonitorWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ActivityMonitorWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CA91BC32E569B3600591925 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		2CA91BC52E569B3600591925 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		2CA91BE82E569F8700591925 /* ActivityMonitorWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ActivityMonitorWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -49,6 +78,22 @@
 			);
 			target = 2C3177A12E4ECCCE00A282BB /* ActivityMonitorIRL */;
 		};
+		2CA91BDB2E569B3900591925 /* Exceptions for "ActivityMonitorWidget" folder in "ActivityMonitorWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 2CA91BC12E569B3600591925 /* ActivityMonitorWidgetExtension */;
+		};
+		2CA91BE42E569E5F00591925 /* Exceptions for "ActivityMonitorIRL" folder in "ActivityMonitorWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Database/SharedDatabaseManager.swift,
+				"Extensions/Date+SQLite.swift",
+				Models/ActivityRecord/ActivityRecord.swift,
+			);
+			target = 2CA91BC12E569B3600591925 /* ActivityMonitorWidgetExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -56,6 +101,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				2CA91BBB2E54AD6900591925 /* Exceptions for "ActivityMonitorIRL" folder in "ActivityMonitorIRL" target */,
+				2CA91BE42E569E5F00591925 /* Exceptions for "ActivityMonitorIRL" folder in "ActivityMonitorWidgetExtension" target */,
 			);
 			path = ActivityMonitorIRL;
 			sourceTree = "<group>";
@@ -68,6 +114,14 @@
 		2C3177BF2E4ECCD000A282BB /* ActivityMonitorIRLUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ActivityMonitorIRLUITests;
+			sourceTree = "<group>";
+		};
+		2CA91BC72E569B3700591925 /* ActivityMonitorWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2CA91BDB2E569B3900591925 /* Exceptions for "ActivityMonitorWidget" folder in "ActivityMonitorWidgetExtension" target */,
+			);
+			path = ActivityMonitorWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -95,6 +149,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2CA91BBF2E569B3600591925 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CA91BE22E569DE100591925 /* SQLite in Frameworks */,
+				2CA91BC62E569B3600591925 /* SwiftUI.framework in Frameworks */,
+				2CA91BC42E569B3600591925 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -109,6 +173,8 @@
 		2C1580BF2E4F055E0070B66F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2CA91BC32E569B3600591925 /* WidgetKit.framework */,
+				2CA91BC52E569B3600591925 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -116,6 +182,7 @@
 		2C3177992E4ECCCE00A282BB = {
 			isa = PBXGroup;
 			children = (
+				2CA91BE82E569F8700591925 /* ActivityMonitorWidgetExtension.entitlements */,
 				2C15806D2E4ECF010070B66F /* .gitignore */,
 				2C15806F2E4ECFD50070B66F /* CLAUDE.md */,
 				2C1580732E4EF9C00070B66F /* .swiftlint.yml */,
@@ -125,6 +192,7 @@
 				2C3177A42E4ECCCE00A282BB /* ActivityMonitorIRL */,
 				2C3177B52E4ECCD000A282BB /* ActivityMonitorIRLTests */,
 				2C3177BF2E4ECCD000A282BB /* ActivityMonitorIRLUITests */,
+				2CA91BC72E569B3700591925 /* ActivityMonitorWidget */,
 				2C1580BF2E4F055E0070B66F /* Frameworks */,
 				2C3177A32E4ECCCE00A282BB /* Products */,
 			);
@@ -136,6 +204,7 @@
 				2C3177A22E4ECCCE00A282BB /* ActivityMonitorIRL.app */,
 				2C3177B22E4ECCD000A282BB /* ActivityMonitorIRLTests.xctest */,
 				2C3177BC2E4ECCD000A282BB /* ActivityMonitorIRLUITests.xctest */,
+				2CA91BC22E569B3600591925 /* ActivityMonitorWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -151,10 +220,12 @@
 				2C31779E2E4ECCCE00A282BB /* Sources */,
 				2C31779F2E4ECCCE00A282BB /* Frameworks */,
 				2C3177A02E4ECCCE00A282BB /* Resources */,
+				2CA91BDC2E569B3900591925 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2CA91BD62E569B3900591925 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				2C3177A42E4ECCCE00A282BB /* ActivityMonitorIRL */,
@@ -213,6 +284,29 @@
 			productReference = 2C3177BC2E4ECCD000A282BB /* ActivityMonitorIRLUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		2CA91BC12E569B3600591925 /* ActivityMonitorWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CA91BD82E569B3900591925 /* Build configuration list for PBXNativeTarget "ActivityMonitorWidgetExtension" */;
+			buildPhases = (
+				2CA91BBE2E569B3600591925 /* Sources */,
+				2CA91BBF2E569B3600591925 /* Frameworks */,
+				2CA91BC02E569B3600591925 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2CA91BC72E569B3700591925 /* ActivityMonitorWidget */,
+			);
+			name = ActivityMonitorWidgetExtension;
+			packageProductDependencies = (
+				2CA91BE12E569DE100591925 /* SQLite */,
+			);
+			productName = ActivityMonitorWidgetExtension;
+			productReference = 2CA91BC22E569B3600591925 /* ActivityMonitorWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -220,7 +314,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					2C3177A12E4ECCCE00A282BB = {
@@ -233,6 +327,9 @@
 					2C3177BB2E4ECCD000A282BB = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 2C3177A12E4ECCCE00A282BB;
+					};
+					2CA91BC12E569B3600591925 = {
+						CreatedOnToolsVersion = 16.4;
 					};
 				};
 			};
@@ -256,6 +353,7 @@
 				2C3177A12E4ECCCE00A282BB /* ActivityMonitorIRL */,
 				2C3177B12E4ECCD000A282BB /* ActivityMonitorIRLTests */,
 				2C3177BB2E4ECCD000A282BB /* ActivityMonitorIRLUITests */,
+				2CA91BC12E569B3600591925 /* ActivityMonitorWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -278,6 +376,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2C3177BA2E4ECCD000A282BB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CA91BC02E569B3600591925 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -329,6 +434,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2CA91BBE2E569B3600591925 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -341,6 +453,11 @@
 			isa = PBXTargetDependency;
 			target = 2C3177A12E4ECCCE00A282BB /* ActivityMonitorIRL */;
 			targetProxy = 2C3177BD2E4ECCD000A282BB /* PBXContainerItemProxy */;
+		};
+		2CA91BD62E569B3900591925 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2CA91BC12E569B3600591925 /* ActivityMonitorWidgetExtension */;
+			targetProxy = 2CA91BD52E569B3900591925 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -471,6 +588,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ActivityMonitorIRL/ActivityMonitorIRL.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ActivityMonitorIRL/Preview Content\"";
@@ -501,6 +619,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ActivityMonitorIRL/ActivityMonitorIRL.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ActivityMonitorIRL/Preview Content\"";
@@ -594,6 +713,60 @@
 			};
 			name = Release;
 		};
+		2CA91BD92E569B3900591925 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ActivityMonitorWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActivityMonitorWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ActivityMonitorWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mitsuyoshi.ActivityMonitorIRL.ActivityMonitorWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2CA91BDA2E569B3900591925 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ActivityMonitorWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActivityMonitorWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ActivityMonitorWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mitsuyoshi.ActivityMonitorIRL.ActivityMonitorWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -633,6 +806,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		2CA91BD82E569B3900591925 /* Build configuration list for PBXNativeTarget "ActivityMonitorWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CA91BD92E569B3900591925 /* Debug */,
+				2CA91BDA2E569B3900591925 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -648,6 +830,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		2C1580C02E4F055E0070B66F /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C1580B32E4F027B0070B66F /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
+		};
+		2CA91BE12E569DE100591925 /* SQLite */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2C1580B32E4F027B0070B66F /* XCRemoteSwiftPackageReference "SQLite" */;
 			productName = SQLite;

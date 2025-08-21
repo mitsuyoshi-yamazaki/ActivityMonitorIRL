@@ -16,6 +16,9 @@ class DatabaseManager {
             db = try Connection(dbPath)
             try performMigrations()
             createTables()
+            
+            // App Groups対応の場合、データを共有データベースに移行
+            SharedDatabaseManager.shared.migrateToSharedDatabase()
         } catch {
             print("Database initialization failed: \(error)")
         }
