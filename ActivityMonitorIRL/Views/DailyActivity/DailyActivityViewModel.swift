@@ -58,6 +58,14 @@ class DailyActivityViewModel: ObservableObject {
         return "\(date) \(totalPoints)pt"
     }
 
+    func getPlaceholder(for hour: Int) -> ActivityRecordPlaceholder {
+        if let record = hourlyRecords[hour] {
+            return .hasRecord(record: record)
+        } else {
+            return .noRecord(date: selectedDate, hour: hour)
+        }
+    }
+
     func getDisplayText(for hour: Int) -> String {
         if let record = hourlyRecords[hour] {
             return "\(record.activityPoints)pt"

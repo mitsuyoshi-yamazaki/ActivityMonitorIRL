@@ -12,22 +12,42 @@ class ActivityRecordEditViewModel: ObservableObject {
     let date: Date
     private let repository: ActivityRepository
     private let onSave: (() -> Void)?
+
+    // 初期データを保持してDB読み込みを最適化
+    private var initialPoints: Int?
+    private var initialActivity: String?
     
     init(
-        hour: Int,
-        date: Date,
-        initialPoints: Int = 0,
+        placeholder: ActivityRecordPlaceholder,
         repository: ActivityRepository = ActivityRepository(),
         onSave: (() -> Void)? = nil
     ) {
-        self.hour = hour
-        self.date = date
-        self.selectedPoints = initialPoints
+        switch placeholder {
+        case .noRecord(let date, let hour):
+            self.date = date
+            self.hour = hour
+            selectedPoints = 0
+            activity = nil
+            initialPoints = nil
+            initialActivity = nil
+        case .hasRecord(let record):
+            date = record.date
+            hour = record.hour
+            selectedPoints = record.activityPoints
+            activity = record.activity
+            initialPoints = record.activityPoints
+            initialActivity = record.activity
+        }
+
         self.repository = repository
         self.onSave = onSave
     }
-    
+
     func loadExistingRecord() {
+        guard !isLoading else {
+            print("\(date) \(hour) はロード中です")
+            return
+        }
         isLoading = true
         errorMessage = nil
         
@@ -35,6 +55,10 @@ class ActivityRecordEditViewModel: ObservableObject {
             if let existingRecord = try repository.findByDateAndHour(date, hour: hour) {
                 selectedPoints = existingRecord.activityPoints
                 activity = existingRecord.activity
+                
+                // 初期データを更新（既存レコードがある場合）
+                initialPoints = existingRecord.activityPoints
+                initialActivity = existingRecord.activity
             }
         } catch {
             errorMessage = "データの読み込みに失敗しました: \(error.localizedDescription)"
@@ -44,8 +68,11 @@ class ActivityRecordEditViewModel: ObservableObject {
     }
     
     func saveRecord() {
-        guard !isLoading else { return }
-        
+        guard !isLoading else {
+            print("\(date) \(hour) は保存中です")
+            return
+        }
+
         isLoading = true
         errorMessage = nil
         
@@ -76,16 +103,6 @@ class ActivityRecordEditViewModel: ObservableObject {
     }
     
     var hasChanges: Bool {
-        // 既存レコードがある場合の変更チェック
-        do {
-            if let existingRecord = try repository.findByDateAndHour(date, hour: hour) {
-                return existingRecord.activityPoints != selectedPoints || existingRecord.activity != activity
-            } else {
-                // 新規レコードの場合は（selectedPointsには値が入っているため）常に保存内容がある状態
-                return true
-            }
-        } catch {
-            return true // フェッチに失敗した場合はtrueとする
-        }
+        return initialPoints != selectedPoints || initialActivity != activity
     }
 }

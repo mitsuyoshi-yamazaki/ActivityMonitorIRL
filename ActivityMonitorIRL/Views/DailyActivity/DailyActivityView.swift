@@ -1,14 +1,15 @@
 import SwiftUI
 
-struct SelectedRecord: Identifiable {
-    let id = UUID()
-    let hour: Int
-    let date: Date
-}
+// TODO: 消す
+//struct SelectedRecord: Identifiable {
+//    let id = UUID()
+//    let hour: Int
+//    let date: Date
+//}
 
 struct DailyActivityView: View {
     @StateObject private var viewModel: DailyActivityViewModel
-    @State private var selectedRecord: SelectedRecord?
+    @State private var selectedRecord: ActivityRecordPlaceholder?
     @Environment(\.scenePhase) var scenePhase
     
     let shouldShowQuickRecord: Bool
@@ -35,7 +36,7 @@ struct DailyActivityView: View {
                                     displayText: viewModel.getDisplayText(for: hour),
                                     activity: viewModel.getActivity(for: hour)
                                 ) {
-                                    selectedRecord = SelectedRecord(hour: hour, date: viewModel.selectedDate)
+                                    selectedRecord = viewModel.getPlaceholder(for: hour)
                                 }
                                 .listRowSeparator(.visible)
                                 .id(hour)
@@ -75,9 +76,7 @@ struct DailyActivityView: View {
             }
             .sheet(item: $selectedRecord) { record in
                 ActivityRecordEditView(
-                    hour: record.hour,
-                    date: record.date,
-                    initialPoints: getCurrentPoints(for: record.hour)
+                    placeholder: record,
                 ) {
                     viewModel.loadActivityRecords(for: viewModel.selectedDate)
                 }
@@ -87,9 +86,9 @@ struct DailyActivityView: View {
         }
     }
     
-    private func getCurrentPoints(for hour: Int) -> Int {
-        return viewModel.hourlyRecords[hour]?.activityPoints ?? 0
-    }
+//    private func getCurrentPoints(for hour: Int) -> Int {
+//        return viewModel.hourlyRecords[hour]?.activityPoints ?? 0
+//    }
     
     private func scrollToCurrentHourIfNeeded(proxy: ScrollViewProxy) {
         let currentHour = Calendar.current.component(.hour, from: Date())
@@ -112,7 +111,7 @@ struct DailyActivityView: View {
             
             // モーダルを表示
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                selectedRecord = SelectedRecord(hour: hour, date: today)
+                selectedRecord = viewModel.getPlaceholder(for: hour)
             }
         }
     }

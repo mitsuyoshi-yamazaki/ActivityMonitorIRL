@@ -42,3 +42,30 @@ extension ActivityRecord {
         ]
     }
 }
+
+enum ActivityRecordPlaceholder: Identifiable {
+    case noRecord(date: Date, hour: Int)
+    case hasRecord(record: ActivityRecord)
+
+    var date: Date {
+        switch self {
+        case .noRecord(let date, _):
+            return date
+        case .hasRecord(let record):
+            return record.date
+        }
+    }
+
+    var hour: Int {
+        switch self {
+        case .noRecord(_, let hour):
+            return hour
+        case .hasRecord(let record):
+            return record.hour
+        }
+    }
+
+    var id: String {
+        return "\(self.date)-\(self.hour)"
+    }
+}

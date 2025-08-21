@@ -4,11 +4,8 @@ struct ActivityRecordEditView: View {
     @StateObject private var viewModel: ActivityRecordEditViewModel
     @Environment(\.dismiss) private var dismiss
     
-    init(hour: Int, date: Date, initialPoints: Int = 0, onSave: (() -> Void)? = nil) {
-        self._viewModel = StateObject(wrappedValue: ActivityRecordEditViewModel(
-            hour: hour,
-            date: date,
-            initialPoints: initialPoints,
+    init(placeholder: ActivityRecordPlaceholder, onSave: (() -> Void)? = nil) {
+        self._viewModel = StateObject(wrappedValue: ActivityRecordEditViewModel(placeholder: placeholder,
             onSave: onSave
         ))
     }
@@ -174,6 +171,6 @@ struct RoundedCorner: Shape {
 }
 
 #Preview {
-    ActivityRecordEditView(hour: 15, date: Date(), initialPoints: 3)
+    ActivityRecordEditView(placeholder: .noRecord(date: Date(), hour: 15))
         .presentationDetents([.height(400)])
 }
